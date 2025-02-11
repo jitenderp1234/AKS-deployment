@@ -9,7 +9,7 @@ permissions:
 
 jobs:
   build-and-push:
-    runs-on: jitenderp1234-dockerbuild.MyLinuxVM
+    runs-on: ubuntu-latest
     steps:
     - name: Checkout Code
       uses: actions/checkout@v2
