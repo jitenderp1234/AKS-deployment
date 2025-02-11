@@ -18,8 +18,8 @@ jobs:
       run: echo ${{ secrets.ACR_PASSWORD }} | docker login jpcontainerregisternew.azurecr.io -u ${{ secrets.ACR_USERNAME }} --password-stdin
     - name: ACRBuild
       run: |
-          docker build -t jpcontainerregisternew.azurecr.io/akswebapp:${{ github.sha }} ./AKSWebApp
-          docker push jpcontainerregisternew.azurecr.io/akswebapp:${{ github.sha }}
+          docker build -t jpcontainerregisternew.azurecr.io/akswebapp:${{ github.run_number }} ./AKSWebApp
+          docker push jpcontainerregisternew.azurecr.io/akswebapp:${{ github.run_number }}
   Update-Kubernetes-Manifest:
     name: Update K8s Deployment Manifest
     needs: build-and-push
