@@ -19,7 +19,7 @@ jobs:
     - name: ACRBuild
       run: |
           docker build -t jpcontainerregisternew.azurecr.io/akswebapp:${{ github.sha }} ./AKSWebApp
-          docker push jpcontainerregisternew.azurecr.io/akswebappnew:${{ github.sha }}
+          docker push jpcontainerregisternew.azurecr.io/akswebapp:${{ github.sha }}
   Update-Kubernetes-Manifest:
     name: Update K8s Deployment Manifest
     needs: build-and-push
