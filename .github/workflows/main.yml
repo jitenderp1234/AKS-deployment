@@ -9,7 +9,7 @@ permissions:
 
 jobs:
   build-and-push:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     steps:
     - name: Checkout Code
       uses: actions/checkout@v2
@@ -22,7 +22,6 @@ jobs:
           docker push jpcontainerregisternew.azurecr.io/akswebappnew:${{ github.sha }}
   Update-Kubernetes-Manifest:
     name: Update K8s Deployment Manifest
-    needs: ACRBuild
     runs-on: ubuntu-latest
     steps:
     
