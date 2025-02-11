@@ -20,3 +20,30 @@ jobs:
       run: |
           docker build -t jpcontainerregisternew.azurecr.io/akswebappnew:${{ github.sha }} ./AKSWebApp
           docker push jpcontainerregisternew.azurecr.io/akswebappnew:${{ github.sha }}
+           Update-Kubernetes-Manifest:
+    name: Update K8s Deployment Manifest
+    needs: ACRBuild
+    runs-on: ubuntu-latest
+    steps:
+    
+    - uses: actions/checkout@v2
+
+    - name: Update image name in manifest file
+      uses: azure/powershell@v1
+      with:
+        inlineScript: |
+          $WorkPath = $env:GITHUB_WORKSPACE
+          Get-ChildItem -Path $WorkPath
+          $DeploymentYAML = Join-Path -Path $WorkPath -ChildPath Manifests/deployment.yaml
+          $line = Get-Content -Path $DeploymentYAML | Select-String image: | Select-Object -ExpandProperty Line
+          $content = Get-Content $DeploymentYAML
+          $content | ForEach-Object {$_ -replace $line,"        image: ${{ secrets.REGISTRY }}.azurecr.io/${{ secrets.REPOSITORY }}:${{ github.run_number }}"} | Set-Content -Path $DeploymentYAML
+        azPSVersion: "latest"
+    
+    - name: Commit changes in manifest to repo
+      run: | 
+        git config user.name "GitHub Actions"
+        git config user.email "jitenderp1234@gmail.com"
+        git add Manifests/deployment.yaml
+        git commit -m "Update image version in K8s Deployment manifests file"
+        git push origin
