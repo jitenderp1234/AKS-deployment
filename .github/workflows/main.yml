@@ -1,10 +1,12 @@
-name: Build and Deploy to AKS
- 
+name: Build and Push Container Image
 on:
+  workflow_dispatch:
   push:
-    branches:
-      - main
- 
+    paths:
+      - "AKSWebApp/**"
+permissions:
+  contents: write
+
 jobs:
   build-and-push:
     runs-on: self-hosted
@@ -14,8 +16,3 @@ jobs:
  
     - name: Login to ACR
 run: echo ${{ secrets.ACR_PASSWORD }} | docker login myacr.azurecr.io -u ${{ secrets.ACR_USERNAME }} --password-stdin
- 
-    - name: Build and Push Docker Image
-      run: |
-docker build -t myacr.azurecr.io/my-app:${{ github.sha }} .
-docker push myacr.azurecr.io/my-app:${{ github.sha }}
