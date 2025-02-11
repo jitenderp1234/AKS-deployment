@@ -16,12 +16,13 @@ jobs:
  
     - name: Login to ACR
       run: echo ${{ secrets.ACR_PASSWORD }} | docker login jpcontainerregisternew.azurecr.io -u ${{ secrets.ACR_USERNAME }} --password-stdin
-    - name: Build and Push Docker Image
+    - name: ACRBuild
       run: |
-          docker build -t jpcontainerregisternew.azurecr.io/akswebappnew:${{ github.sha }} ./AKSWebApp
+          docker build -t jpcontainerregisternew.azurecr.io/akswebapp:${{ github.sha }} ./AKSWebApp
           docker push jpcontainerregisternew.azurecr.io/akswebappnew:${{ github.sha }}
   Update-Kubernetes-Manifest:
     name: Update K8s Deployment Manifest
+    needs: ACRBuild
     runs-on: ubuntu-latest
     steps:
     
@@ -36,7 +37,7 @@ jobs:
           $DeploymentYAML = Join-Path -Path $WorkPath -ChildPath Manifests/deployment.yaml
           $line = Get-Content -Path $DeploymentYAML | Select-String image: | Select-Object -ExpandProperty Line
           $content = Get-Content $DeploymentYAML
-          $content | ForEach-Object {$_ -replace $line,"        image: ${{ secrets.REGISTRY }}.azurecr.io/${{ secrets.REPOSITORY }}:${{ github.run_number }}"} | Set-Content -Path $DeploymentYAML
+          $content | ForEach-Object {$_ -replace $line,"        image: ${{ secrets.REGISTRY }}.azurecr.io/akswebapp:${{ github.run_number }}"} | Set-Content -Path $DeploymentYAML
         azPSVersion: "latest"
     
     - name: Commit changes in manifest to repo
