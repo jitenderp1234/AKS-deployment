@@ -1,23 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  name: akswebapp
   labels:
-    app: {{ .Release.Name }}
-  name: {{ .Release.Name }}
-  namespace: {{ .Release.Namespace }}
+    app: akswebapp
 spec:
-  replicas: {{ .Values.Replicas }}
+  replicas: 1
   selector:
     matchLabels:
-      app: {{ .Release.Name }}
+      app: akswebapp
   template:
     metadata:
       labels:
-        app: {{ .Release.Name }}
+        app: akswebapp
     spec:
       containers:
-      - image: crrzqxudloemoo4.azurecr.io/akswebapp:v1
-        name: {{ .Release.Name }}
-        env:
-        - name: ASPNETCORE_ENVIRONMENT
-          value: {{ .Values.Environment }}
+      - name: akswebapp
+        image: jpcontainerregisternew.azurecr.io/akswebapp:20
