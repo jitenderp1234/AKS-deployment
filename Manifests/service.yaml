@@ -4,7 +4,6 @@ metadata:
   labels:
     app: akswebapp
   name: akswebapp
-  namespace: akswebapp
 spec:
   ports:
   - port: 80
