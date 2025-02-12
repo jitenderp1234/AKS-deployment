@@ -13,8 +13,7 @@ spec:
     metadata:
       labels:
         app: akswebapp
- 
-     spec:
+    spec:
       containers:
+      - name: akswebapp-container
         image: jpcontainerregisternew.azurecr.io/akswebapp:20
-        name: akswebapp
