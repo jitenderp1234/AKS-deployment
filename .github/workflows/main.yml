@@ -34,7 +34,7 @@ jobs:
         inlineScript: |
           $WorkPath = $env:GITHUB_WORKSPACE
           Get-ChildItem -Path $WorkPath
-          $DeploymentYAML = Join-Path -Path $WorkPath -ChildPath Manifests/deployment.yaml
+          $DeploymentYAML = Join-Path -Path $WorkPath -ChildPath Helm/AKSWebApp/templates/deployment.yaml
           $line = Get-Content -Path $DeploymentYAML | Select-String image: | Select-Object -ExpandProperty Line
           $content = Get-Content $DeploymentYAML
           $content | ForEach-Object {$_ -replace $line,"        image: ${{ secrets.REGISTRY }}.azurecr.io/akswebapp:${{ github.run_number }}"} | Set-Content -Path $DeploymentYAML
