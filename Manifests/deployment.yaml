@@ -16,5 +16,5 @@ spec:
         app: akswebapp
     spec:
       containers:
-        image: jpcontainerregisternew.azurecr.io/akswebapp:20
+        image: jitenderp1234/catalog:v5
         name: akswebapp
