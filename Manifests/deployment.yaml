@@ -13,15 +13,8 @@ spec:
     metadata:
       labels:
         app: akswebapp
-  replicas: 1
-  selector:
-    matchLabels:
-      app: akswebapp
-  template:
-    metadata:
-      labels:
-        app: akswebapp
-    spec:
+ 
+     spec:
       containers:
         image: jpcontainerregisternew.azurecr.io/akswebapp:20
         name: akswebapp
