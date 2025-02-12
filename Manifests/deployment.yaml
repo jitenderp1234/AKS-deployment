@@ -18,6 +18,3 @@ spec:
       containers:
         image: jpcontainerregisternew.azurecr.io/akswebapp:20
         name: akswebapp
-        envFrom:
-        - configMapRef:
-            name: env-config
