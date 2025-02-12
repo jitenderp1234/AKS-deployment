@@ -16,4 +16,4 @@ spec:
     spec:
       containers:
       - name: akswebapp
-        image: jpcontainerregisternew.azurecr.io/akswebapp:22
+        image: jpcontainerregisternew.azurecr.io/akswebapp:23
